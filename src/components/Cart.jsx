@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import SingleProduct from "./SingleProduct";
 import { CartContext } from "../context/GlobalContext";
+import CartEmpty from "./CartEmpty";
 
 const Cart = () => {
   const { cart } = useContext(CartContext);
@@ -10,13 +11,15 @@ const Cart = () => {
   }, [cart]);
   return (
     <>
-      <h1 className="text-3xl font-semibold p-6 ml-6">
-        Total amount : <span className="text-red-500">${price}</span>
+      <h1 className="text-3xl font-semibold p-6 ml-6 sticky top-20 bg-white">
+        Total amount : <span className="text-red-500">${Math.floor(price)}</span>
       </h1>
       <div className="flex flex-wrap justify-evenly p-3">
-        {cart.map((item) => (
-          <SingleProduct item={item} key={item.id} />
-        ))}
+        {cart.length === 0 ? (
+          <CartEmpty />
+        ) : (
+          cart.map((item) => <SingleProduct item={item} key={item.id} />)
+        )}
       </div>
     </>
   );

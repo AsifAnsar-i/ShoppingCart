@@ -1,18 +1,29 @@
 import React, { useContext } from "react";
 import { CartContext } from "../context/GlobalContext";
 
+const truncateTitle = (title, wordsCount) => {
+  const words = title.split(' ');
+  if (words.length <= wordsCount) {
+    return title;
+  }
+  return words.slice(0, wordsCount).join(' ') + '...';
+};
+
 const SingleProduct = ({ item }) => {
   const { cart, setCart } = useContext(CartContext);
+
   return (
     <div className="w-[25%] flex flex-col p-2 m-2 border-slate-400">
       <img
-        className="rounded-sm"
-        src={item.images[1] }
+        className="rounded-sm h-[250px] object-contain"
+        src={item.image}
         alt={item.name}
       />
-      <div className="flex justify-between p-3">
-        <h3>{item.title}</h3>
-        <p className="text-sm font-semibold">Price: ${item.price}</p>
+      <div className="flex flex-col justify-between p-3">
+        <p className="text-xs font-bold mb-1.5">Price: ${item.price}</p>
+        <h3 className="font-bold text-gray-600">
+          {truncateTitle(item.title, 4)}
+        </h3>
       </div>
       {cart.includes(item) ? (
         <button
